@@ -115,7 +115,7 @@ git push origin develop
 
 ## Autor
 
-Este projeto foi desenvolvido por [Cesar Szpak](https://github.com/cesarszpak) e está hospedado no repositório da organização [Celke](https://github.com/celkecursos).
+Este projeto foi desenvolvido por [Matheus Amaral da Costa](https://github.com/MatheusADC) e está hospedado no repositório [AVA](https://github.com/MatheusADC/AVA).
 
 ## Licença
 
