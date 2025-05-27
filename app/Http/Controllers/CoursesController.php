@@ -9,7 +9,8 @@ class CoursesController extends Controller
     // Listar os cursos
     public function index()
     {
-        dd("Carregar os cursos");
+        // Carregar a view
+        return view('courses.index');
     }
 
 }
