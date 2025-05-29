@@ -3,6 +3,7 @@ Projeto criado durante o curso de Laravel 12.
 ## Requisitos
 
 * PHP 8.2 ou superior - Conferir a versão: php -v
+* MySQL 8.0 ou superior - Conferir a versão: mysql --version
 * Composer - Conferir a instalação: composer --version
 * Node.js 22 ou superior - Conferir a versão: node -v
 * GIT - Conferir se está instalado o GIT: git -v
@@ -10,6 +11,15 @@ Projeto criado durante o curso de Laravel 12.
 ## Como rodar o projeto baixado
 
 - Duplicar o arquivo ".env.example" e renomear para ".env".
+- Alterar as credenciais do banco de dados.
+```
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=celke
+DB_USERNAME=root
+DB_PASSWORD=
+```
 
 Instalar as dependências do PHP.
 ```
@@ -24,6 +34,16 @@ npm install
 Gerar a chave no arquivo .env.
 ```
 php artisan key:generate
+```
+
+Executar as migrations para criar as tabelas e as colunas.
+```
+php artisan migrate
+```
+
+Executar seed com php artisan para cadastrar registros de testes.
+```
+php artisan db:seed
 ```
 
 Iniciar o projeto criado com Laravel.
@@ -66,6 +86,58 @@ npm run dev
 Acessar o conteúdo padrão do Laravel
 ```
 http://127.0.0.1:8000
+```
+
+Criar Controller com php artisan.
+```
+php artisan make:controller NomeController
+```
+```
+php artisan make:controller CoursesController
+```
+
+Criar View com php artisan.
+```
+php artisan make:view diretorio.nome-view
+```
+```
+php artisan make:view courses.index
+```
+
+Criar migration com php artisan.
+```
+php artisan make:migration create_nome_table
+```
+```
+php artisan make:migration create_courses_table
+```
+
+Executar as migrations para criar a base de dados e as tabelas.
+```
+php artisan migrate
+```
+
+Criar seed com php artisan para cadastrar registros de testes.
+```
+php artisan make:seeder NomeSeeder
+```
+```
+php artisan make:seeder UserSeeder
+```
+
+Executar seed com php artisan para cadastrar registros de testes.
+```
+php artisan db:seed
+```
+
+Desfazer todas as migrations e executá-las novamente.
+```
+php artisan migrate:fresh
+```
+
+Desfazer todas as migrations, executá-las novamente e rodar as seeds.
+```
+php artisan migrate:fresh --seed
 ```
 
 ## Como enviar e baixar os arquivos do GitHub
