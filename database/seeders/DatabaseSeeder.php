@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\App;
 
 class DatabaseSeeder extends Seeder
 {
@@ -11,13 +12,26 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $this->call([
-            StatusSeeder::class,
-            UserSeeder::class,
-            CourseStatusSeeder::class,
-            CourseSeeder::class,
-            CourseBatchSeeder::class,
-            ModuleSeeder::class,
-        ]);
+        // Seeds que deve rodar em produção
+        if(App::environment() === 'production') {
+            $this->call([
+                StatusSeeder::class,
+                UserSeeder::class,
+                CourseStatusSeeder::class,
+            ]);
+        }
+
+        // Seeds que deve rodar em qualquer ambiente
+        if(App::environment() !== 'production') {
+            $this->call([
+                StatusSeeder::class,
+                UserSeeder::class,
+                CourseStatusSeeder::class,
+                CourseSeeder::class,
+                CourseBatchSeeder::class,
+                ModuleSeeder::class,
+                LessonSeeder::class,
+            ]);
+        }
     }
 }
