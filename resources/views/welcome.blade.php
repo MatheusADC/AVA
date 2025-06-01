@@ -7,5 +7,6 @@
     </head>
     <body>
         <h1>Bem-vindo à Celke</h1>
+        <a href="{{ route('courses.index') }}">Listar os Cursos</a>
     </body>
 </html>
