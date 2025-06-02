@@ -7,6 +7,12 @@
     </head>
     <body>
         <h1>Bem-vindo à Celke</h1>
-        <a href="{{ route('courses.index') }}">Listar os Cursos</a>
+        <a href="{{ route('courses.index') }}">Cursos</a><br>
+        <a href="{{ route('courses-status.index') }}">Status Cursos</a><br>
+        <a href="{{ route('courses-batches.index') }}">Turmas</a><br>
+        <a href="{{ route('modules.index') }}">Módulos</a><br>
+        <a href="{{ route('lessons.index') }}">Aulas</a><br>
+        <a href="{{ route('users.index') }}">Usuários</a><br>
+        <a href="{{ route('status.index') }}">Status</a><br>
     </body>
 </html>
