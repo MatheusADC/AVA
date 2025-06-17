@@ -10,8 +10,12 @@ class CourseController extends Controller
     // Listar os cursos
     public function index()
     {
+        // Recuperar os registros do banco de dados
+        $courses = Course::orderBy('id', 'DESC')->get();
+        // dd($courses);
+
         // Carregar a view
-        return view('courses.index');
+        return view('courses.index', ['courses' => $courses]);
     }
 
     // Carregar o formulário cadastrar novo curso
