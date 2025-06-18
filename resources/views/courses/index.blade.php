@@ -13,6 +13,7 @@
     @forelse ($courses as $course)
         ID: {{ $course->id }}<br>
         Nome: {{ $course->name }}<br>
+        <a href={{ route('courses.show', ['course' => $course->id]) }}>Visualizar</a>
         <hr>
     @empty
 
