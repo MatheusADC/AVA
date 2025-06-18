@@ -18,6 +18,14 @@ class CourseController extends Controller
         return view('courses.index', ['courses' => $courses]);
     }
 
+    // Visualizar o curso
+    public function show(Course $course)
+    {
+        // dd($course);
+        // Carregar a view
+        return view('courses.show', ['course' => $course]);
+    }
+
     // Carregar o formulário cadastrar novo curso
     public function create()
     {
