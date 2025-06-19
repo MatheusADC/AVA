@@ -14,15 +14,21 @@ Route::get('/', function () {
 });
 
 // Cursos
-Route::get('/index-course', [CourseController::class, 'index'])->name('courses.index');
-Route::get('/show-course/{course}', [CourseController::class, 'show'])->name('courses.show');
-Route::get('/create-course', [CourseController::class, 'create'])->name('courses.create');
-Route::post('/store-course', [CourseController::class, 'store'])->name('courses.store');
+Route::prefix('courses')->group(function () {
+    Route::get('/', [CourseController::class, 'index'])->name('courses.index');
+    // create sempre deve vir antes do show quando cria o grupo de rotas
+    Route::get('/create', [CourseController::class, 'create'])->name('courses.create');
+    Route::get('/{course}', [CourseController::class, 'show'])->name('courses.show');
+    Route::post('/', [CourseController::class, 'store'])->name('courses.store');
+});
 
 // Cursos Status
-Route::get('/index-course-status', [CourseStatusController::class, 'index'])->name('courses-status.index');
-Route::get('/create-course-status', [CourseStatusController::class, 'create'])->name('courses-status.create');
-Route::post('/store-course-status', [CourseStatusController::class, 'store'])->name('courses-status.store');
+Route::prefix('course-statuses')->group(function () {
+    Route::get('/', [CourseStatusController::class, 'index'])->name('course_statuses.index');
+    Route::get('/create', [CourseStatusController::class, 'create'])->name('course_statuses.create');
+    Route::get('/{courseStatus}', [CourseStatusController::class, 'show'])->name('course_statuses.show');
+    Route::post('/', [CourseStatusController::class, 'store'])->name('course_statuses.store');
+});
 
 // Turmas
 Route::get('/index-course-batches', [CourseBatchController::class, 'index'])->name('courses-batches.index');
