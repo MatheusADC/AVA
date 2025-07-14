@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Course;
+use Exception;
 use Illuminate\Http\Request;
 
 class CourseController extends Controller
@@ -37,12 +38,47 @@ class CourseController extends Controller
     public function store(Request $request)
     {
         // dd($request);
-        // Cadastrar no banco de dados na tabela cursos
-        Course::create([
-            'name' => $request->name
-        ]);
 
-        // Redirecionar o usuário, enviar a mensagem de sucesso
-        return redirect()->route('courses.index')->with('success', 'Curso cadastrado com sucesso!');
+        try {
+            // Cadastrar no banco de dados na tabela cursos
+            $course = Course::create([
+                'name' => $request->name
+            ]);
+
+            // Redirecionar o usuário, enviar a mensagem de sucesso
+            return redirect()->route('courses.show', ['course' => $course->id])->with('success', 'Curso cadastrado com sucesso!');
+        } catch (Exception $e) {
+            return back()->withInput()->with('error', 'Curso não cadastrado!');
+        }
+    }
+
+    // Carregar o formulário editar curso
+    public function edit(Course $course)
+    {
+        // dd($course);
+
+        // Carregar a view
+        return view('courses.edit', ['course' => $course]);
+    }
+
+    // Editar no banco de dados o curso
+    public function update(Request $request, Course $course)
+    {
+        // dd($request);
+        // dd($course);
+
+        // Capturar possíveis exceções durante a execução
+        try {
+            // Editar as informações do registro no banco de dados
+            $course->update([
+                'name' => $request->name
+            ]);
+
+            // Redirecionar o usuário, enviar a mensagem de sucesso
+            return redirect()->route('courses.show', ['course' => $course->id])->with('success', 'Curso editado com sucesso!');
+        } catch (Exception $e) {
+            // Redirecionar o usuário, enviar a mensagem de erro
+            return back()->withInput()->with('error', 'Curso não editado!');
+        }
     }
 }
