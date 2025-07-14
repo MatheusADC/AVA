@@ -3,7 +3,8 @@
 @section('content')
     <h2>Detalhes do curso</h2>
 
-     <a href="{{ route('courses.index') }}">Listar</a><br><br>
+    <a href="{{ route('courses.index') }}">Listar</a><br>
+    <a href="{{ route('courses.edit', ['course' => $course->id]) }}">Editar</a><br><br>
 
     <x-alert />
     {{-- {{ dd($course) }} --}}
