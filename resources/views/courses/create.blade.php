@@ -5,13 +5,15 @@
 
     <a href="{{ route('courses.index') }}">Listar</a><br><br>
 
+    <x-alert />
+
     <form action="{{ route('courses.store') }}" method="POST">
         {{-- Só aceita valores da própria aplicação, não recebendo de forma externa, aumentando a segurança --}}
         @csrf
         @method('POST')
 
         <label>Nome: </label>
-        <input type="text" name="name" id="name" placeholder="Nome do curso" required><br><br>
+        <input type="text" name="name" id="name" placeholder="Nome do curso" value="{{ old('name') }}" required><br><br>
         <button type="submit">Cadastrar</button>
     </form>
 @endsection
