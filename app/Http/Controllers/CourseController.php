@@ -81,4 +81,21 @@ class CourseController extends Controller
             return back()->withInput()->with('error', 'Curso não editado!');
         }
     }
+
+    // Excluir o curso do banco de dados
+    public function destroy(Course $course)
+    {
+        // Capturar possíveis exceções durante a execução
+        try {
+
+            // Excluir o registro do banco de dados
+            $course->delete();
+
+            // Redirecionar o usuário, enviar a mensagem de sucesso
+            return redirect()->route('courses.index')->with('success', 'Curso apagado com sucesso!');
+        } catch (Exception $e) {
+            // Redirecionar o usuário, enviar a mensagem de erro
+            return back()->withInput()->with('error', 'Curso não apagado!');
+        }
+    }
 }
