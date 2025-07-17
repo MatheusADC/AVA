@@ -22,6 +22,7 @@ Route::prefix('courses')->group(function () {
     Route::post('/', [CourseController::class, 'store'])->name('courses.store');
     Route::get('/{course}/edit', [CourseController::class, 'edit'])->name('courses.edit');
     Route::put('/{course}', [CourseController::class, 'update'])->name('courses.update');
+    Route::delete('/{course}', [CourseController::class, 'destroy'])->name('courses.destroy');
 });
 
 // Cursos Status
