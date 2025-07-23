@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\UserRequest;
 use App\Models\User;
 use Exception;
+use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
@@ -75,6 +76,42 @@ class UserController extends Controller
         } catch (Exception $e) {
             // Redirecionar o usuário, enviar a mensagem de erro
             return back()->withInput()->with('error', 'Usuário não editado!');
+        }
+    }
+
+    // Carregar o formulário editar senha do usuário
+    public function editPassword(User $user)
+    {
+        // Carregar a view
+        return view('users.edit_password', ['user' => $user]);
+    }
+
+    // Editar no banco de dados a senha do usuário
+    public function updatePassword(Request $request, User $user)
+    {
+        // Validar o formulário
+        $request->validate(
+            [
+                'password' => 'required|min:6',
+            ],
+            [
+                'password.required' => "Campo senha é obrigatório!",
+                'password.min' => "Senha com no mínimo :min caracteres!",
+            ]
+        );
+
+        // Capturar possíveis exceções durante a execução.
+        try {
+            // Editar as informações do registro no banco de dados
+            $user->update([
+                'password' => $request->password
+            ]);
+
+            // Redirecionar o usuário, enviar a mensagem de sucesso
+            return redirect()->route('users.show', ['user' => $user->id])->with('success', 'Senha do usuário editada com sucesso!');
+        } catch (Exception $e) {
+            // Redirecionar o usuário, enviar a mensagem de erro
+            return back()->withInput()->with('error', 'Senha do usuário não editada!');
         }
     }
 
