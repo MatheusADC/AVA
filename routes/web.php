@@ -49,9 +49,19 @@ Route::get('/create-lessons', [LessonController::class, 'create'])->name('lesson
 Route::post('/store-lessons', [LessonController::class, 'store'])->name('lessons.store');
 
 // Usuários
-Route::get('/index-users', [UserController::class, 'index'])->name('users.index');
-Route::get('/create-users', [UserController::class, 'create'])->name('users.create');
-Route::post('/store-users', [UserController::class, 'store'])->name('users.store');
+Route::prefix('users')->group(function () {
+    Route::get('/', [UserController::class, 'index'])->name('users.index');
+    Route::get('/create', [UserController::class, 'create'])->name('users.create');
+    Route::get('/{user}', [UserController::class, 'show'])->name('users.show');
+    Route::post('/', [UserController::class, 'store'])->name('users.store');
+    Route::get('/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
+    Route::put('/{user}', [UserController::class, 'update'])->name('users.update');
+    Route::delete('/{user}', [UserController::class, 'destroy'])->name('users.destroy');
+
+    Route::get('/{user}/edit-password', [UserController::class, 'editPassword'])->name('users.edit_password');
+    Route::put('/{user}/update-password', [UserController::class, 'updatePassword'])->name('users.update_password');
+
+});
 
 // Usuários Status
 Route::get('/index-status', [StatusController::class, 'index'])->name('status.index');
