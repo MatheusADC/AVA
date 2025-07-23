@@ -2,37 +2,96 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UserRequest;
 use App\Models\User;
-use Illuminate\Http\Request;
+use Exception;
 
 class UserController extends Controller
 {
     // Listar os usuários
     public function index()
     {
-        // Carregar a view 
-        return view('users.index');
+        // Recuperar os registros do banco dados
+        $users = User::orderBy('id', 'DESC')->get();
+
+        // Carregar a view
+        return view('users.index', ['users' => $users]);
+    }
+
+    // Visualizar os detalhes do usuário
+    public function show(User $user)
+    {
+        // Carregar a view
+        return view('users.show', ['user' => $user]);
     }
 
     // Carregar o formulário cadastrar novo usuário
     public function create()
     {
-        // Carregar a view 
+        // Carregar a view
         return view('users.create');
     }
 
     // Cadastrar no banco de dados o novo usuário
-    public function store(Request $request)
+    public function store(UserRequest $request)
     {
-        // dd($request);
-        // Cadastrar no banco de dados na tabela usuário
-        User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => $request->password,
-        ]);
+        // Capturar possíveis exceções durante a execução.
+        try {
+            // Cadastrar no banco de dados na tabela usuário
+            User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => $request->password,
+            ]);
 
-        // Redirecionar o usuário, enviar a mensagem de sucesso
-        return redirect()->route('users.index')->with('success', 'Usuário cadastrado com sucesso!');
+            // Redirecionar o usuário, enviar a mensagem de sucesso
+            return redirect()->route('users.index')->with('success', 'Usuário cadastrado com sucesso!');
+        } catch (Exception $e) {
+            // Redirecionar o usuário, enviar a mensagem de erro
+            return back()->withInput()->with('error', 'Usuário não cadastrado!');
+        }
+    }
+
+    // Carregar o formulário editar usuário
+    public function edit(User $user)
+    {
+        // Carregar a view
+        return view('users.edit', ['user' => $user]);
+    }
+
+    // Editar no banco de dados o usuário
+    public function update(UserRequest $request, User $user)
+    {
+        // Capturar possíveis exceções durante a execução.
+        try {
+            // Editar as informações do registro no banco de dados
+            $user->update([
+                'name' => $request->name,
+                'email' => $request->email,
+            ]);
+
+            // Redirecionar o usuário, enviar a mensagem de sucesso
+            return redirect()->route('users.show', ['user' => $user->id])->with('success', 'Usuário editado com sucesso!');
+        } catch (Exception $e) {
+            // Redirecionar o usuário, enviar a mensagem de erro
+            return back()->withInput()->with('error', 'Usuário não editado!');
+        }
+    }
+
+    // Excluir o curso do banco de dados
+    public function destroy(User $user)
+    {
+        // Capturar possíveis exceções durante a execução.
+        try {
+
+            // Excluir o registro do banco de dados
+            $user->delete();
+
+            // Redirecionar o usuário, enviar a mensagem de sucesso
+            return redirect()->route('users.index')->with('success', 'Usuário apagado com sucesso!');
+        } catch (Exception $e) {
+            // Redirecionar o usuário, enviar a mensagem de erro
+            return back()->withInput()->with('error', 'Usuário não apagado!');
+        }
     }
 }
