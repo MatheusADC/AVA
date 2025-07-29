@@ -6,6 +6,7 @@ use App\Http\Requests\UserRequest;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class UserController extends Controller
 {
@@ -15,6 +16,9 @@ class UserController extends Controller
         // Recuperar os registros do banco dados
         $users = User::orderBy('id', 'DESC')->paginate(10);
 
+        // Salvar log
+        Log::info('Listar os usuários.');
+
         // Carregar a view
         return view('users.index', ['users' => $users]);
     }
@@ -22,6 +26,10 @@ class UserController extends Controller
     // Visualizar os detalhes do usuário
     public function show(User $user)
     {
+
+        // Salvar log
+        Log::info('Visualizar o usuário.', ['user_id' => $user->id]);
+
         // Carregar a view
         return view('users.show', ['user' => $user]);
     }
@@ -39,15 +47,22 @@ class UserController extends Controller
         // Capturar possíveis exceções durante a execução.
         try {
             // Cadastrar no banco de dados na tabela usuário
-            User::create([
+            $user = User::create([
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => $request->password,
             ]);
 
+            // Salvar log
+            Log::info('Usuário cadastrado.', ['user_id' => $user->id]);
+
             // Redirecionar o usuário, enviar a mensagem de sucesso
-            return redirect()->route('users.index')->with('success', 'Usuário cadastrado com sucesso!');
+            return redirect()->route('users.show', ['user' => $user->id])->with('success', 'Usuário cadastrado com sucesso!');
         } catch (Exception $e) {
+
+            // Salvar log
+            Log::notice('Usuário não cadastrado.', ['error' => $e->getMessage()]);
+
             // Redirecionar o usuário, enviar a mensagem de erro
             return back()->withInput()->with('error', 'Usuário não cadastrado!');
         }
@@ -71,9 +86,16 @@ class UserController extends Controller
                 'email' => $request->email,
             ]);
 
+            // Salvar log
+            Log::info('Usuário editado.', ['user_id' => $user->id]);
+
             // Redirecionar o usuário, enviar a mensagem de sucesso
             return redirect()->route('users.show', ['user' => $user->id])->with('success', 'Usuário editado com sucesso!');
         } catch (Exception $e) {
+
+            // Salvar log
+            Log::notice('Usuário não editado.', ['error' => $e->getMessage()]);
+
             // Redirecionar o usuário, enviar a mensagem de erro
             return back()->withInput()->with('error', 'Usuário não editado!');
         }
@@ -107,9 +129,16 @@ class UserController extends Controller
                 'password' => $request->password
             ]);
 
+            // Salvar log
+            Log::info('Senha do usuário editada.', ['user_id' => $user->id]);
+
             // Redirecionar o usuário, enviar a mensagem de sucesso
             return redirect()->route('users.show', ['user' => $user->id])->with('success', 'Senha do usuário editada com sucesso!');
         } catch (Exception $e) {
+
+            // Salvar log
+            Log::notice('Senha do usuário não editada.', ['error' => $e->getMessage()]);
+
             // Redirecionar o usuário, enviar a mensagem de erro
             return back()->withInput()->with('error', 'Senha do usuário não editada!');
         }
@@ -124,9 +153,16 @@ class UserController extends Controller
             // Excluir o registro do banco de dados
             $user->delete();
 
+            // Salvar log
+            Log::info('Usuário apagado.', ['user_id' => $user->id]);
+
             // Redirecionar o usuário, enviar a mensagem de sucesso
             return redirect()->route('users.index')->with('success', 'Usuário apagado com sucesso!');
         } catch (Exception $e) {
+
+            // Salvar log
+            Log::notice('Usuário não apagado.', ['error' => $e->getMessage()]);
+
             // Redirecionar o usuário, enviar a mensagem de erro
             return back()->withInput()->with('error', 'Usuário não apagado!');
         }
