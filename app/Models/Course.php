@@ -15,4 +15,10 @@ class Course extends Model implements Auditable
 
     // Indicar quais colunas podem ser manipuladas para evitar vulnerabilidade de atribuição em massa
     protected $fillable = ['name'];
+
+    // Criar relacionamento entre um e muitos
+    public function courseBatch()
+    {
+        return $this->hasMany(CourseBatch::class);
+    }
 }
