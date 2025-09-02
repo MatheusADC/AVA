@@ -2,22 +2,32 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Course;
 use App\Models\CourseBatch;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class CourseBatchController extends Controller
 {
-    // Listar as turmas dos cursos
-    public function index()
+  // Listar as turmas dos cursos
+    public function index(Course $course)
     {
-        // Carregar a view 
-        return view('courses_batches.index');
+        // Recuperar os registros do banco dados
+        $coursesBatches = CourseBatch::orderBy('id', 'DESC')
+            ->where('course_id', $course->id)
+            ->paginate(10);
+
+        // Salvar log
+        Log::info('Listar as turmas.');
+
+        // Carregar a view
+        return view('course_batches.index', ['coursesBatches' => $coursesBatches, 'course' => $course]);
     }
 
     // Carregar o formulário cadastrar nova turma
     public function create()
     {
-        // Carregar a view 
+        // Carregar a view
         return view('courses_batches.create');
     }
 
