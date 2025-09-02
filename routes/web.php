@@ -34,7 +34,7 @@ Route::prefix('course-statuses')->group(function () {
 });
 
 // Turmas
-Route::get('/index-course-batches', [CourseBatchController::class, 'index'])->name('courses-batches.index');
+Route::get('/index-course-batches/{course}', [CourseBatchController::class, 'index'])->name('courses-batches.index');
 Route::get('/create-course-batches', [CourseBatchController::class, 'create'])->name('courses-batches.create');
 Route::post('/store-course-batches', [CourseBatchController::class, 'store'])->name('courses-batches.store');
 
